@@ -1,0 +1,2 @@
+#!/bin/bash
+set | grep -vE 'BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID'
