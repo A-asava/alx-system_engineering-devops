@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Bash script that displays content of the current dir
+
+my_list=$(ls)
+for file in ${my_list}
+do
+	if [[ -f "${file}" ]]
+	then
+		echo "${file}" | cut -d '-' -f2
+	fi
+done
