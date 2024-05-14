@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# installing engine x on the remote server
+
+apt-get update
+apt-get install -y nginx
+ufw allow 'Nginx HTTP'
+sudo echo 'Hello World!' | tee /var/www/html/index.nginx-debian.html
+service nginx restart
