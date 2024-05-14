@@ -1,23 +1,11 @@
 #!/usr/bin/env bash
 # Configure your Nginx server so that /redirect_me is redirecting to another page
-
+# Define the redirection URL
 REDIRECT_URL="https://docs.nginx.com/nginx/admin-guide/web-server/"
-	
-sudo apt-get update
-sudo apt-get install -y nginx
-sudo ufw allow 'Nginx HTTP'
-echo "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
 
-    root /var/www/html;
-    index index.html index.htm;
+# Replace the location block for /redirect_me with a redirection
+sudo sed -i "s|^\s*location /redirect_me {.*|    location /redirect_me { return 301 $REDIRECT_URL; }|g" /etc/nginx/sites-available/default
 
-    server_name _;
+# Restart Nginx to apply the changes
+sudo systemctl restart nginx
 
-    location /redirect_me {
-        return 301 $REDIRECT_URL;
-    }
-}" | sudo tee /etc/nginx/sites-available/temp_config
-sudo ln -s /etc/nginx/sites-available/temp-config /etc/nginx/sites-enabled/
-sudo service nginx restart
