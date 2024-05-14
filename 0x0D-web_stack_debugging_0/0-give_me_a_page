@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # return a page containing Hello Holberton when querying the root of it
+docker exec -it 754f30484b1f /bin/bash
+cd /etc/
+cd ..
 netstat -lpn
 service apache2 start
 netstat -tuln
+exit
+curl 0:8080
