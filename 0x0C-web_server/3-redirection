@@ -19,5 +19,5 @@ echo "server {
         return 301 $REDIRECT_URL;
     }
 }" | sudo tee /etc/nginx/sites-available/temp_config
-sudo ln -s /etc/nginx/sites-available/temp-config /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/temp_config /etc/nginx/sites-enabled/
 sudo service nginx restart
