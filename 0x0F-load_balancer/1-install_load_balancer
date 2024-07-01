@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Automating installation of HAproxy and configuration
+
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.8
+sudo apt-get -y update
+sudo apt-get install -y  haproxy=2.8.\*
+
+echo "frontend  A-asava-frontend
+              bind *:80
+              mode http
+              default_backend A-asava-backend
+
+backend  A-asava-backend
+       balance roundrobin
+       server 332592-web-01 54.160.99.202:80 check
+       server 332592-web-02 100.27.12.227:80 check" | sudo tee /etc/haproxy/haproxy.cfg
+
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
