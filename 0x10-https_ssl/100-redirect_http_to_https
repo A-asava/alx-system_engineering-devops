@@ -1,0 +1,43 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+frontend http-in
+    bind *:80
+    mode http
+    redirect scheme https code 301 if !{ ssl_fc }
+
+frontend A-asava-frontend
+       bind *:443 ssl crt /etc/letsencrypt/live/www.intellicraft.tech/fullchain.pem
+       mode http
+       default_backend A-asava-backend
+       timeout client 30s
+
+backend A-asava-backend
+       mode http
+       balance roundrobin
+       timeout connect 5s
+       timeout server 30s
+       server 332592-web-01 54.174.84.60:80 check
+       server 332592-web-02 100.25.31.7:80 check
