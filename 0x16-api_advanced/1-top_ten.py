@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-queries the top ten hot posts of a given Reddit subreddit.
+Queries the top ten hot posts of a given Reddit subreddit.
 """
 
 import requests
@@ -12,20 +12,22 @@ def top_ten(subreddit):
 
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
+        
         if response.status_code == 200:
             try:
                 data = response.json().get('data', {}).get('children', [])
+                
                 if not data:
-                    print("No posts found.")
-                    return
-                for post in data:
-                    print(post['data']['title'])
+                    print("None")
+                else:
+                    for post in data:
+                        print(post['data']['title'])
             except ValueError:
-                print("Error: Could not decode JSON response.")
+                print("None")
         else:
             print("None")
-    except requests.RequestException as e:
-        print(f"Error: {e}")
+    except requests.RequestException:
+        print("None")
 
 if __name__ == "__main__":
     import sys
