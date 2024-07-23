@@ -6,7 +6,7 @@ sudo apt-get install -y nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Create the custom 404 page
-echo "$CUSTOM_404_CONTENT" | sudo tee /var/www/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
 # Insert the custom 404 error page configuration using sed
 sudo sed -i '/server_name _;/a \
